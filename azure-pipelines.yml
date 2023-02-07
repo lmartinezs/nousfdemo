@@ -44,6 +44,7 @@ jobs:
             echo "##vso[task.setvariable variable=open_pr;isOutput=true]$PRE_RELEASE" #set variable doThing to Yes
 
       displayName: 'check_open_prerelease'
+      name: check_open_prerelease
       env:
         GH_TOKEN: $(gh_token)
     - script: | 
