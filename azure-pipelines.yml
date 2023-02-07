@@ -52,7 +52,7 @@ jobs:
       displayName: 'Run a multi-line script'
   - job: create_new_pre_prelease
     dependsOn: check_prerelease
-    condition: ${{ if eq(variables['PRE_RELEASE'], 'new_one') }}
+    condition: eq(variables.pre_release, 'new_one')
     steps: 
     - script: 'echo new one hello world'
   - job: push_to_current_prerelease
