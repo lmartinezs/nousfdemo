@@ -14,12 +14,18 @@ resources:
     type: github
     endpoint: lmartinezs
     name: lmartinezs/nousfdemo
+  - repository: githubnextv # The name used to reference this repository in the checkout step
+    type: github
+    endpoint: lmartinezs
+    name: Grupo-Abraxas/arkon-cc-next-version
+    ref: v0.1.5    
+
 variables:
   GIT_COMMIT: $(Build.SourceVersion)
   GIT_BRANCH: $(Build.SourceBranchName)
   CURRENT_PRERELEASE: 12
   PRE_RELEASE_BRANCH: none
-  PRE_RELEASE: PRE_RELEASE
+  PRE_RELEASE: PRE_RELEASE  
 
 jobs:
   - job: check_prerelease
@@ -58,6 +64,8 @@ jobs:
     condition: eq(dependencies.check_prerelease.outputs['check_open_prerelease.open_pr'], 'new_one') #map doThing and check the value
     steps: 
     - script: 'echo new one hello world'
+    - checkout: githubnextv
+      path: .github/actions/my-action            
   - job: push_to_current_prerelease
     dependsOn: check_prerelease    
     condition: eq(dependencies.check_prerelease.outputs['check_open_prerelease.open_pr'], 'current_one') #map doThing and check the value
