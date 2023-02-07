@@ -41,7 +41,9 @@ jobs:
             #echo "PRE_RELEASE=$PRE_RELEASE"  >> $GITHUB_ENV
             echo "##vso[task.setvariable variable=PRE_RELEASE]$PRE_RELEASE"
             echo $PRE_RELEASE
-      displayName: 'Run a one-line script'
+            echo "##vso[task.setvariable variable=open_pr;isOutput=true]$PRE_RELEASE" #set variable doThing to Yes
+
+      displayName: 'check_open_prerelease'
       env:
         GH_TOKEN: $(gh_token)
     - script: | 
@@ -52,7 +54,8 @@ jobs:
       displayName: 'Run a multi-line script'
   - job: create_new_pre_prelease
     dependsOn: check_prerelease
-    condition: eq(variables.pre_release, 'new_one')
+    #condition: eq(variables.pre_release, 'new_one')
+    condition: eq(dependencies.check_prerelease.outputs['check_open_prerelease.open_pr'], 'new_one') #map doThing and check the value
     steps: 
     - script: 'echo new one hello world'
   - job: push_to_current_prerelease
