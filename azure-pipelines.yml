@@ -59,7 +59,7 @@ jobs:
     steps: 
     - script: 'echo new one hello world'
   - job: push_to_current_prerelease
-    dependsOn: check_prerelease
-    condition: eq(variables.PRE_RELEASE, 'current_one')
+    dependsOn: check_prerelease    
+    condition: eq(dependencies.check_prerelease.outputs['check_open_prerelease.open_pr'], 'current_one') #map doThing and check the value
     steps: 
     - script: 'echo current hello world'
