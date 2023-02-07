@@ -48,7 +48,7 @@ jobs:
         echo $(GIT_COMMIT)
         echo $(GIT_BRANCH)
         echo $(CURRENT_PRERELEASE)
-        echo $(PRE_RELEASE_BRANCH)
+        echo $(PRE_RELEASE)
       displayName: 'Run a multi-line script'
   - job: create_new_pre_prelease
     dependsOn: check_prerelease
