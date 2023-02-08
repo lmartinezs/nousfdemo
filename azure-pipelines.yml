@@ -13,12 +13,7 @@ resources:
   - repository: githubrepo # The name used to reference this repository in the checkout step
     type: github
     endpoint: lmartinezs
-    name: lmartinezs/nousfdemo
-  - repository: githubnextv # The name used to reference this repository in the checkout step
-    type: github
-    endpoint: lmartinezs
-    name: Grupo-Abraxas/arkon-cc-next-version
-    ref: v0.1.5    
+    name: lmartinezs/nousfdemo  
 
 variables:
   GIT_COMMIT: $(Build.SourceVersion)
