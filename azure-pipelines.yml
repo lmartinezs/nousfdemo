@@ -26,6 +26,7 @@ jobs:
   - job: check_prerelease
     steps:
     - checkout: githubrepo
+      persistCredentials: true
     - script: | 
             if [[ $(gh release list | grep -E 'Draft|Pre-release' | wc -l) -ne 0 ]]; then
               echo "There is an open Pre-release"
@@ -59,6 +60,7 @@ jobs:
     condition: eq(dependencies.check_prerelease.outputs['check_open_prerelease.open_pr'], 'new_one') #map doThing and check the value
     steps: 
     - checkout: githubrepo
+      persistCredentials: true
     - script: |
         echo "##vso[task.setvariable variable=latest_tag]1.0.1"
         echo "##vso[task.setvariable variable=calculated_next_version]1.0.2"
