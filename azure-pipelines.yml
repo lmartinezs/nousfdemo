@@ -69,7 +69,8 @@ jobs:
         git config --local user.email "lmartinezs@gmail.com"
       displayName: Initialize mandatory git config    
     - script: |
-        if [[ $(latest_tag) = $(calculated_next_version)]] ; then
+        if [[ "$(latest_tag)" == "$(calculated_next_version)" ]] 
+        then
           echo "- No changes"
           exit 1
         fi
