@@ -62,7 +62,10 @@ jobs:
     steps: 
     - checkout: githubrepo
       persistCredentials: true
-    
+    - task: gitversion/setup@0
+      displayName: Install GitVersion
+      inputs:
+        versionSpec: '5.x'
     - task: gitversion/execute@0
       displayName: Use GitVersion
       name: Version # the step MUST be named to access its output variables in another stage.
