@@ -23,6 +23,46 @@ variables:
   PRE_RELEASE: PRE_RELEASE  
 
 jobs:
+  - job: CalculateVersion
+    displayName: Tagging release version
+
+    steps:
+      # Checkout with persist credentials
+      - checkout: self
+        persistCredentials: true
+
+      # Install GitVersion
+      - task: gitversion/setup@0
+        displayName: Install GitVersion
+        inputs:
+          versionSpec: "5.x"
+
+      # Determine the semantic version
+      - task: gitversion/execute@0
+        displayName: Calculating version
+        inputs:
+          useConfigFile: True
+          configFilePath: ".azuredevops/gitversion.yml"
+
+      # Update Build.BuildNumber to use SemVer, as by default it uses FullSemVer
+      - pwsh: |
+          Write-Host "##vso[build.updatebuildnumber]$(GitVersion.SemVer)"
+        displayName: Update Build.BuildNumber
+      # Adds the tag for the calculated semantic version
+      - task: PowerShell@2
+        displayName: Adding git release tag
+        inputs:
+          targetType: inline
+          script: |
+            Write-Host "Configuring git author info.." -ForegroundColor Cyan
+            git config user.email "Azure DevOps pipeline"
+            git config user.name "Azure.Devops@pipeline.com"
+            Write-Host "Adding git tag for release $(GitVersion.SemVer).." -ForegroundColor Cyan
+            git tag -a $("v$(GitVersion.SemVer)") -m $("Release $(GitVersion.SemVer)")
+            Write-Host "Doing git push.." -ForegroundColor Cyan
+            git push --tags
+            Write-Host "Done." -ForegroundColor Cyan
+            
   - job: check_prerelease
     steps:
     - checkout: githubrepo
