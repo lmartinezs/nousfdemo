@@ -40,9 +40,6 @@ jobs:
       # Determine the semantic version
       - task: gitversion/execute@0
         displayName: Calculating version
-        inputs:
-          useConfigFile: True
-          configFilePath: ".azuredevops/gitversion.yml"
 
       # Update Build.BuildNumber to use SemVer, as by default it uses FullSemVer
       - pwsh: |
@@ -62,7 +59,7 @@ jobs:
             Write-Host "Doing git push.." -ForegroundColor Cyan
             git push --tags
             Write-Host "Done." -ForegroundColor Cyan
-            
+
   - job: check_prerelease
     steps:
     - checkout: githubrepo
