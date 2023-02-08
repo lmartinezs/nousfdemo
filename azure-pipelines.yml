@@ -58,6 +58,7 @@ jobs:
     dependsOn: check_prerelease
     condition: eq(dependencies.check_prerelease.outputs['check_open_prerelease.open_pr'], 'new_one') #map doThing and check the value
     steps: 
+    - checkout: githubrepo
     - script: |
         echo "##vso[task.setvariable variable=latest_tag]1.0.1"
         echo "##vso[task.setvariable variable=calculated_next_version]1.0.2"
